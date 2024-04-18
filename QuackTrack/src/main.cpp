@@ -1,31 +1,58 @@
-#include <Arduino.h>
 #include "motor.h"
+#include "myWebsocket.h"
+
+void handleMessage(char *message);
 
 // Create two instances of the Motor class
-Motor motor1(32, 33, true);  
-Motor motor2(25, 26, false); 
+Motor motor1(32, 33, true);
+Motor motor2(25, 26, true);
 
 void setup()
 {
   Serial.begin(115200);
+  init_wifi();
+  init_websockets(handleMessage);
 }
 
 void loop()
 {
-  // Nothing to do here
-  // Ramp the speeds from -255 to 255
-  for (int speed = -255; speed <= 255; speed++)
+  delay(1000);
+}
+
+/**
+ * @brief Handles the message received from the websocket
+ *
+ * @param message
+ */ 
+void handleMessage(char *message)
+{
+  if (strcmp(message, "forward") == 0)
   {
-    // motor1.setSpeed(speed);
-    motor2.setSpeed(speed);
-    delay(10); // Adjust the delay time as needed
+    motor1.setSpeed(255);
+    motor2.setSpeed(255);
   }
-  delay(1000); // Delay for 1 second before reversing the motors
-  Serial.println("Reversing motors");
-  for (int speed = 255; speed >= -255; speed--)
+  else if (strcmp(message, "backward") == 0)
   {
-    motor1.setSpeed(speed);
-    motor2.setSpeed(speed);
-    delay(10); // Adjust the delay time as needed
+    motor1.setSpeed(-255);
+    motor2.setSpeed(-255);
+  }
+  else if (strcmp(message, "left") == 0)
+  {
+    motor1.setSpeed(-255);
+    motor2.setSpeed(-255);
+  }
+  else if (strcmp(message, "right") == 0)
+  {
+    motor1.setSpeed(255);
+    motor2.setSpeed(-255);
+  }
+  else if (strcmp(message, "stop") == 0)
+  {
+    motor1.setSpeed(0);
+    motor2.setSpeed(0);
+  }
+  else
+  {
+    Serial.println("Invalid command");
   }
 }

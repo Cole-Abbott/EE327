@@ -51,3 +51,32 @@
     </script>
 </body>
 </html>
+
+<!-- 
+// JavaScript code for WebSocket communication
+const socket = new WebSocket('ws://localhost:8888/websocket');
+
+socket.onopen = function() {
+    console.log('WebSocket connection established.');
+};
+
+socket.onmessage = function(event) {
+    const message = event.data;
+    displayMessage(message);
+};
+
+function sendMessage() {
+    const input = document.getElementById('message-input');
+    const message = input.value;
+    socket.send(message);
+    input.value = '';
+}
+
+function displayMessage(message) {
+    const messageBox = document.getElementById('message-box');
+    const newMessage = document.createElement('p');
+    newMessage.textContent = message;
+    messageBox.appendChild(newMessage);
+}
+
+document.getElementById('send-button').addEventListener('click', sendMessage); -->
