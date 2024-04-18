@@ -22,7 +22,9 @@
 
     <script>
         // JavaScript code for WebSocket communication
-        const socket = new WebSocket('ws://localhost:8888/websocket');
+        const ipAddress = '10.105.1.116'; // Replace with your desired IP address
+        const socket = new WebSocket(`ws://${ipAddress}:8888/websocket`);
+        // const socket = new WebSocket('ws://localhost:8888/websocket');
 
         socket.onopen = function () {
             console.log('WebSocket connection established.');
