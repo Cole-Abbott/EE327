@@ -39,7 +39,7 @@ void handleMessage(char *message)
   else if (strcmp(message, "left") == 0)
   {
     motor1.setSpeed(-255);
-    motor2.setSpeed(-255);
+    motor2.setSpeed(255);
   }
   else if (strcmp(message, "right") == 0)
   {

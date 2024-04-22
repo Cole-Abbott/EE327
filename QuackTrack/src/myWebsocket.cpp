@@ -49,7 +49,7 @@ void init_websockets(void (*func)(char *))
     // Start task to handle server loops
     xTaskCreatePinnedToCore(
         client_loop_task,             // Function to implement the task
-        "client_loop_task",               // Name of the task
+        "client_loop_task",           // Name of the task
         8192,                         // Stack size in words
         NULL,                         // Task input parameter
         3,                            // Priority of the task
@@ -62,7 +62,7 @@ void init_websockets(void (*func)(char *))
 /**
  * @brief Task to handle websocket events
  *
- * @param pvParameters
+ * @param pvParameters freeRTOS task parameters (not used)
  */
 void client_loop_task(void *pvParameters)
 {

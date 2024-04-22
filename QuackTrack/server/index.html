@@ -5,6 +5,55 @@
     <title>RC Car Control</title>
     <style>
         /* Add your CSS styles here */
+        #controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #forwardButton {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        #backwardButton {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        #leftButton {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        #rightButton {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        #stopButton {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
     </style>
 </head>
 
