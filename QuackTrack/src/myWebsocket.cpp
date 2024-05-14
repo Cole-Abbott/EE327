@@ -45,16 +45,16 @@ void init_websockets(void (*func)(char *))
 
     // set Handlemessage callback
     handleMessage = func;
-
+    
     // Start task to handle server loops
     xTaskCreatePinnedToCore(
         client_loop_task,             // Function to implement the task
         "client_loop_task",           // Name of the task
         8192,                         // Stack size in words
         NULL,                         // Task input parameter
-        3,                            // Priority of the task
+        1,                            // Priority of the task
         NULL,                         // Task handle.
-        CONFIG_ARDUINO_RUNNING_CORE); // Core where the task should run
+        0); // Core where the task should run
 
     Serial.println("Websocket client started");
 }

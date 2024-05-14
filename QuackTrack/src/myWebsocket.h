@@ -14,3 +14,5 @@
 
 void init_wifi();
 void init_websockets(void (*func)(char *));
+
+extern WebSocketsClient websockets_client;

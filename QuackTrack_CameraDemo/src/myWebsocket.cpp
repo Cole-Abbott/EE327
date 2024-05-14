@@ -89,7 +89,7 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
         Serial.printf("[WSc] Connected to url: %s\n", payload);
         break;
     case WStype_TEXT:
-        Serial.printf("[WSc] get text: %s\n", payload);
+        // Serial.printf("[WSc] get text: %s\n", payload);
         handleMessage((char *)payload);
         break;
     case WStype_BIN:

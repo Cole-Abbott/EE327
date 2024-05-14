@@ -1,0 +1,52 @@
+Date : 2024-05-06 15:06:17
+Directory : /Users/cole/code/EE327/QuackTrack
+Total : 17 files,  1527 codes, 359 comments, 449 blanks, all 2335 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| C++        |         12 |        692 |        301 |        249 |      1,242 |
+| Properties |          1 |        648 |         10 |        132 |        790 |
+| Python     |          1 |        106 |         34 |         42 |        182 |
+| JavaScript |          1 |         61 |          5 |         16 |         82 |
+| HTML       |          1 |         11 |          0 |          8 |         19 |
+| Ini        |          1 |          9 |          9 |          2 |         20 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                           |         17 |      1,527 |        359 |        449 |      2,335 |
+| . (Files)                                                   |          1 |          9 |          9 |          2 |         20 |
+| server                                                      |          4 |        826 |         49 |        198 |      1,073 |
+| server (Files)                                              |          2 |        754 |         44 |        174 |        972 |
+| server/website                                              |          2 |         72 |          5 |         24 |        101 |
+| src                                                         |          9 |        355 |        150 |        129 |        634 |
+| stuff                                                       |          3 |        337 |        151 |        120 |        608 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                    | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/cole/code/EE327/QuackTrack/platformio.ini            | Ini        |          9 |          9 |          2 |         20 |
+| /Users/cole/code/EE327/QuackTrack/server/server.py          | Python     |        106 |         34 |         42 |        182 |
+| /Users/cole/code/EE327/QuackTrack/server/website/index.html | HTML       |         11 |          0 |          8 |         19 |
+| /Users/cole/code/EE327/QuackTrack/server/website/script.js  | JavaScript |         61 |          5 |         16 |         82 |
+| /Users/cole/code/EE327/QuackTrack/server/yolov3.cfg         | Properties |        648 |         10 |        132 |        790 |
+| /Users/cole/code/EE327/QuackTrack/src/camera.cpp            | C++        |         76 |         30 |         19 |        125 |
+| /Users/cole/code/EE327/QuackTrack/src/camera.h              | C++        |         20 |          1 |          4 |         25 |
+| /Users/cole/code/EE327/QuackTrack/src/control.cpp           | C++        |        128 |         40 |         42 |        210 |
+| /Users/cole/code/EE327/QuackTrack/src/control.h             | C++        |          4 |          0 |          3 |          7 |
+| /Users/cole/code/EE327/QuackTrack/src/main.cpp              | C++        |         22 |          6 |         14 |         42 |
+| /Users/cole/code/EE327/QuackTrack/src/motor.h               | C++        |         30 |         11 |         11 |         52 |
+| /Users/cole/code/EE327/QuackTrack/src/myWebsocket.cpp       | C++        |         65 |         19 |         18 |        102 |
+| /Users/cole/code/EE327/QuackTrack/src/myWebsocket.h         | C++        |         10 |          2 |          6 |         18 |
+| /Users/cole/code/EE327/QuackTrack/src/websocketDemo.cpp     | C++        |          0 |         41 |         12 |         53 |
+| /Users/cole/code/EE327/QuackTrack/stuff/control.cpp         | C++        |        110 |         48 |         40 |        198 |
+| /Users/cole/code/EE327/QuackTrack/stuff/control_bitBang.cpp | C++        |        110 |         48 |         40 |        198 |
+| /Users/cole/code/EE327/QuackTrack/stuff/control_wire.cpp    | C++        |        117 |         55 |         40 |        212 |
+| Total                                                       |            |      1,527 |        359 |        449 |      2,335 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -1,58 +1,39 @@
 #include "motor.h"
 #include "myWebsocket.h"
+#include "camera.h"
+#include "control.h"
 
-void handleMessage(char *message);
 
-// Create two instances of the Motor class
-Motor motor1(32, 33, true);
-Motor motor2(25, 26, true);
+void textHandler(char *message);
+
+
+
+
 
 void setup()
 {
   Serial.begin(115200);
+
   init_wifi();
-  init_websockets(handleMessage);
+  init_websockets(textHandler);
+
+  init_camera(); // do this before the imu_setup because the camera uses the i2c bus
+
+  imu_setup();
+  init_camera_PID();
 }
 
 void loop()
 {
-  delay(1000);
+  delay(100); // do nothing
 }
 
-/**
- * @brief Handles the message received from the websocket
- *
- * @param message
- */ 
-void handleMessage(char *message)
+// Function to handle the text message
+void textHandler(char *message)
 {
-  if (strcmp(message, "forward") == 0)
-  {
-    motor1.setSpeed(255);
-    motor2.setSpeed(255);
-  }
-  else if (strcmp(message, "backward") == 0)
-  {
-    motor1.setSpeed(-255);
-    motor2.setSpeed(-255);
-  }
-  else if (strcmp(message, "left") == 0)
-  {
-    motor1.setSpeed(-255);
-    motor2.setSpeed(255);
-  }
-  else if (strcmp(message, "right") == 0)
-  {
-    motor1.setSpeed(255);
-    motor2.setSpeed(-255);
-  }
-  else if (strcmp(message, "stop") == 0)
-  {
-    motor1.setSpeed(0);
-    motor2.setSpeed(0);
-  }
-  else
-  {
-    Serial.println("Invalid command");
-  }
+  int x, y;
+  sscanf(message, "x: %d, y: %d ", &x, &y);
+
+  // set the anglar velocity setpoint
+  set_camera_PID_data(x, y);
 }
