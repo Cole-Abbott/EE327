@@ -3,12 +3,7 @@
 #include "camera.h"
 #include "control.h"
 
-
 void textHandler(char *message);
-
-
-
-
 
 void setup()
 {
@@ -31,9 +26,29 @@ void loop()
 // Function to handle the text message
 void textHandler(char *message)
 {
-  int x, y;
-  sscanf(message, "x: %d, y: %d ", &x, &y);
+  if (message[0] == 'x')
+  {
+    int x, y;
+    sscanf(message, "x: %d, y: %d ", &x, &y);
 
-  // set the anglar velocity setpoint
-  set_camera_PID_data(x, y);
+    // set the anglar velocity setpoint
+    set_camera_PID_data(x, y);
+  } else if (message[0] == 'm')
+  {
+    int w, v;
+    sscanf(message, "m: %d, %d ", &w, &v);
+    
+    // set angular velocity setpoint
+    set_imu_setpoint(w, v);
+
+
+  } else if (message[0] == 't')
+  {
+    //toggle mode
+    toggle_mode();
+  } else if (message[0] == 'n')
+  {
+    //no person detected
+    set_camera_PID_data(120, 266);
+  }
 }

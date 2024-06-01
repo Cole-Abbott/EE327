@@ -26,7 +26,8 @@ void init_camera()
     config.pin_sccb_scl = SIOC_GPIO_NUM;
     config.pin_pwdn = PWDN_GPIO_NUM;
     config.pin_reset = RESET_GPIO_NUM;
-    config.xclk_freq_hz = 20000000;
+    // config.xclk_freq_hz = 20000000;
+    config.xclk_freq_hz = 8000000;
     config.pixel_format = PIXFORMAT_JPEG;
 
     // small resolution
@@ -95,7 +96,6 @@ void send_image()
 
     // Free the frame buffer space
     esp_camera_fb_return(fb);
-    delay(100);
 }
 
 void send_image_task(void *parameter)
@@ -103,6 +103,6 @@ void send_image_task(void *parameter)
     while (1)
     {
         send_image();
-        delay(50);
+        delay(150);
     }
 } // end send_image_task

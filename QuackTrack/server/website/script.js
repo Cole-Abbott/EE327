@@ -3,6 +3,9 @@ var localhost = "";
 var buttonClicked = false;
 var webcamState = false;
 
+var imageTimes = [];
+var fpsLength = 10;
+
 // Initialize the websocket
 function init() {
 	if(window.location.hostname != "") {
@@ -63,6 +66,15 @@ function onMessage(msg) {
 	};
 	reader.readAsDataURL(msg.data);
 	console.log("Image received");
+	// calculate the FPS
+	var currentTime = new Date().getTime();
+	imageTimes.push(currentTime);
+	if (imageTimes.length > fpsLength) {
+		imageTimes.shift();
+	}
+	var fps = imageTimes.length / ((currentTime - imageTimes[0]) / 1000);
+	document.getElementById("fps").innerHTML = "FPS: " + fps.toFixed(2);
+	
 }
 
 function onError(evt) { // when an error occurs
@@ -77,6 +89,49 @@ function onError(evt) { // when an error occurs
   {
 	console.log(message);
   }
+
+  // forward button stop when released
+document.getElementById("forward").addEventListener("mousedown", function() {
+	websocket.send("m: 0, 250");
+});
+document.getElementById("forward").addEventListener("mouseup", function() {
+	websocket.send("m: 0, 0");
+});
+
+// backward button stop when released
+document.getElementById("back").addEventListener("mousedown", function() {
+	websocket.send("m: 0, -200");
+});
+document.getElementById("back").addEventListener("mouseup", function() {
+	websocket.send("m: 0, 0");
+});
+
+// left button stop when released
+document.getElementById("left").addEventListener("mousedown", function() {
+	websocket.send("m: 2, 0");
+});
+document.getElementById("left").addEventListener("mouseup", function() {
+	websocket.send("m: 0, 0");
+});
+
+
+// right button stop when released
+document.getElementById("right").addEventListener("mousedown", function() {
+	websocket.send("m: -2, 0");
+});
+document.getElementById("right").addEventListener("mouseup", function() {
+	websocket.send("m: 0, 0");
+});
+
+
+document.getElementById("stop").addEventListener("mousedown", function() {
+	websocket.send("m: 0, 0");
+});
+
+document.getElementById("mode").addEventListener("click", function() {
+	websocket.send("t");
+	websocket.send("m: 0, 0");
+});
 
 // Open Websocket as soon as page loads
 window.addEventListener("load", init, false);

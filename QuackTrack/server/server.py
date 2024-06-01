@@ -87,7 +87,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     # on message received from the website, echo the message back to the website and send it to the ESP32 clients
     def on_message(self, message):
-        self.write_message("Received message: " + message)
+        # self.write_message("Received message: " + message)
         # todo send message to esp clients
         print("Received website message: " + message)
         print(f"Sending message to { len(esp_clients)} ESP32 clients: ")
@@ -125,7 +125,7 @@ class ESPHandler(tornado.websocket.WebSocketHandler):
         # convert the message to an image
         nparr = np.frombuffer(message, np.uint8)
         image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-        # rotate the image 180 degrees
+        # # rotate the image 180 degrees
         image = cv2.rotate(image, cv2.ROTATE_180)
         image, x, y, count = detect_person(image)
         if count > 0:
@@ -134,6 +134,13 @@ class ESPHandler(tornado.websocket.WebSocketHandler):
             for client in esp_clients:
                 try:
                     client.write_message(f"x: {x}, y: {y}")
+                except:
+                    print("Client not connected")
+                    esp_clients.remove(client)
+        else:
+            for client in esp_clients:
+                try:
+                    client.write_message("no person detected")
                 except:
                     print("Client not connected")
                     esp_clients.remove(client)
@@ -153,7 +160,7 @@ class ESPHandler(tornado.websocket.WebSocketHandler):
                 print("Client not connected")
                 website_clients.remove(client)
 
-        print("sending image to website clients")
+        print("sending image of size: ", len(image))
        
 
 

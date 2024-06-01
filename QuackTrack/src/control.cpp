@@ -1,12 +1,11 @@
 #include "control.h"
 #include "motor.h"
 
-
 #include <Wire.h>
 
 // Motor pins
-Motor motorL(12, 15, false);
-Motor motorR(2, 4, false); 
+Motor motorL(12, 15, true);
+Motor motorR(2, 4, false);
 
 // Global variable to store the setpoint and the camera data
 volatile float _global_imu_angle_setpoint = 0;
@@ -14,6 +13,7 @@ volatile float _global_imu_speed_setpoint = 0;
 volatile int _global_camera_x = 240;
 volatile int _global_camera_y = 180;
 volatile int _global_camera_flag = 0;
+volatile int _global_mode = 0; // 0 for manual, 1 for auto
 
 // I2C pins
 #define SDA_PIN 14
@@ -126,14 +126,14 @@ void imu_loop_task(void *parameter)
         float turnResult = imu_Kp * error + imu_Ki * I + imu_Kd * (error - prevError);
         prevError = error;
 
-
         // Calculate the speed of the motors
         int result_R = turnResult + _global_imu_speed_setpoint;
         int result_L = -turnResult + _global_imu_speed_setpoint;
 
         // Set the speed of the motors
-        motorR.setSpeed(result_R);
+
         motorL.setSpeed(result_L);
+        motorR.setSpeed(result_R);
 
         // Serial.printf(">Setpoint: %f\n", angle_setpoint);
         // Serial.printf(">Gyro: %f\n", gyroZ);
@@ -150,7 +150,6 @@ void set_imu_setpoint(float angleSetpoint, float speedSetpoint)
 {
     _global_imu_angle_setpoint = angleSetpoint;
     _global_imu_speed_setpoint = speedSetpoint;
-
 }
 
 void init_camera_PID()
@@ -178,10 +177,11 @@ void camera_PID_task(void *parameter)
     while (1)
     {
         // wait for new setpoint
-        while (!_global_camera_flag)
+        while (!_global_camera_flag || !_global_mode)
         {
             delay(10);
         }
+
         _global_camera_flag = 0;
 
         int error = setPoint - _global_camera_x;
@@ -199,7 +199,7 @@ void camera_PID_task(void *parameter)
         float result = camera_Kp * error + camera_Ki * I + camera_Kd * (error - prevError);
         prevError = error;
 
-        //set speed based on threshold of y axis
+        // set speed based on threshold of y axis
         int speed = 0;
         if (_global_camera_y > Y_THRESHOLD + Y_TOLERANCE)
         {
@@ -209,22 +209,38 @@ void camera_PID_task(void *parameter)
         {
             speed = 90;
         }
-        
 
-        // set the imu setpoint        
-        // set_imu_setpoint(result, speed);
-        set_imu_setpoint(result, 0);
-
+        // set the imu setpoint
+        set_imu_setpoint(result, speed);
+        // set_imu_setpoint(result, 0);
 
         Serial.printf(">Camera:%d\n>Error:%d\n>Result:%f\n", _global_camera_x, error, result);
         Serial.printf(">_global_camera_y:%d\n", _global_camera_y);
     }
 }
 
-
 void set_camera_PID_data(int x, int y)
 {
     _global_camera_x = x;
     _global_camera_y = y;
     _global_camera_flag = 1;
+}
+
+/**
+    @brief Set the speed of the motors
+    @param left: speed of the left motor
+    @param right: speed of the right motor
+*/
+void set_motor_speed(int left, int right)
+{
+    motorL.setSpeed(left);
+    motorR.setSpeed(right);
+}
+
+/**
+    @brief Toggle the mode of the robot
+*/
+void toggle_mode()
+{
+    _global_mode = !_global_mode;
 }

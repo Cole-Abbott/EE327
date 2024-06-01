@@ -23,6 +23,9 @@ void init_wifi()
     WiFi.mode(WIFI_STA);
     WiFi.begin(SSID);
 
+    //set power to max
+    // WiFi.setTxPower(WIFI_POWER_11dBm);
+
     Serial.println("Connecting to WiFi..");
     while (WiFi.status() != WL_CONNECTED)
     {
