@@ -31,8 +31,9 @@ volatile int _global_mode = 0; // 0 for manual, 1 for auto
 #define camera_Kd 0
 #define camera_I_max 1000
 
-#define Y_THRESHOLD 266
+#define Y_THRESHOLD 105
 #define Y_TOLERANCE 10
+#define camera_Kp_y 10
 
 void imu_loop_task(void *parameter);
 void camera_PID_task(void *parameter);
@@ -172,7 +173,7 @@ void camera_PID_task(void *parameter)
     float prevError = 0;
     int count = 0;
 
-    int setPoint = 120;
+    int setPoint = 160;
 
     while (1)
     {
@@ -200,15 +201,20 @@ void camera_PID_task(void *parameter)
         prevError = error;
 
         // set speed based on threshold of y axis
+        // int speed = 0;
+        // if (_global_camera_y > Y_THRESHOLD + Y_TOLERANCE)
+        // {
+        //     speed = 90;
+        // }
+        // else if (_global_camera_y < Y_THRESHOLD - Y_TOLERANCE)
+        // {
+        //     speed = -90;
+        // }
+
+        // set speed based on the error using a p controller
         int speed = 0;
-        if (_global_camera_y > Y_THRESHOLD + Y_TOLERANCE)
-        {
-            speed = -90;
-        }
-        else if (_global_camera_y < Y_THRESHOLD - Y_TOLERANCE)
-        {
-            speed = 90;
-        }
+        int y_error = _global_camera_y - Y_THRESHOLD;
+        speed = y_error * camera_Kp_y;
 
         // set the imu setpoint
         set_imu_setpoint(result, speed);
@@ -243,4 +249,16 @@ void set_motor_speed(int left, int right)
 void toggle_mode()
 {
     _global_mode = !_global_mode;
+}
+
+/**
+    @brief Set the imu setpoint to 0.8 of the global imu angle setpoint
+*/
+void no_person_detected()
+{
+    // set imt setpoint to 0.8 of _global_imu_angle_setpoint if in auto mode
+    if (_global_mode)
+    {
+        set_imu_setpoint(_global_imu_angle_setpoint * 0.8, 0);
+    }
 }

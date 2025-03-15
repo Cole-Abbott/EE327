@@ -126,7 +126,7 @@ class ESPHandler(tornado.websocket.WebSocketHandler):
         nparr = np.frombuffer(message, np.uint8)
         image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         # # rotate the image 180 degrees
-        image = cv2.rotate(image, cv2.ROTATE_180)
+        # image = cv2.rotate(image, cv2.ROTATE_180)
         image, x, y, count = detect_person(image)
         if count > 0:
             # self.write_message(f"x: {x}, y: {y}")

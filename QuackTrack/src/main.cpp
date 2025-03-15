@@ -49,6 +49,6 @@ void textHandler(char *message)
   } else if (message[0] == 'n')
   {
     //no person detected
-    set_camera_PID_data(120, 266);
+    no_person_detected();
   }
 }

@@ -1,1 +1,6 @@
 *.weights
+QuackTrack_CameraDemo/.DS_Store
+QuackTrack_CameraDemo/server/.DS_Store
+QuackTrack_CameraDemo/.DS_Store
+quackTrackIMUTest/.DS_Store
+.gitignore
